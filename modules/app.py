@@ -1,3 +1,6 @@
+# I don't believe in license.
+# You can do whatever you want with this program.
+
 import os
 import sys
 import time
@@ -43,7 +46,7 @@ class App( object ):
             sys.stdout.write( ' %s\r' % t_chars[n%l] )
 
 
-    def __init__( self, t_mods ):
+    def setMods( self, t_mods ):
         self.mods = t_mods
 
 
