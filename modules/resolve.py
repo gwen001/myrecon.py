@@ -9,29 +9,27 @@ from functools import partial
 from multiprocessing.dummy import Pool
 
 
-class Resolve( object ):
+class Resolve:
     ips = []
-    n_ips = 0
     dead_host = []
-    n_dead = 0
     full_output = ''
 
 
-    def run( self, t_hosts ):
-        sys.stdout.write( '[+] running mod: resolve...\n' )
+    def run( self, app ):
+        sys.stdout.write( '[+] resolving...\n' )
 
         t_multiproc = {
             'n_current': 0,
-            'n_total': len(t_hosts)
+            'n_total': app.n_hosts
         }
 
         pool = Pool( 10 )
-        pool.map( partial(self.resolve,t_multiproc), t_hosts )
+        pool.map( partial(self.resolve,t_multiproc), app.hosts )
         pool.close()
         pool.join()
 
-        self.n_ips = len(self.ips)
-        self.n_dead = len(self.dead_host)
+        app.setIps( self.ips, self.full_output )
+        app.setDeadHosts( self.dead_host )
 
 
     def resolve( self, t_multiproc, host ):

@@ -2,10 +2,16 @@
 # You can do whatever you want with this program.
 
 import os
+import imp
 import sys
 import time
+from modules import functions as func
 from colored import fg, bg, attr
 
+_config = {
+    'available_mods': ['screenshot', 'quickhits', 'crlf', 'openredirect'],
+    'mandatory_mods' : ['subdomains', 'resolve', 'urls']
+}
 
 class App( object ):
     mods = []
@@ -21,17 +27,30 @@ class App( object ):
     domains   = []
     n_domains = 0
     
-    hosts   = []
-    n_hosts = 0
+    hosts    = []
+    tmphosts = ''
+    n_hosts  = 0
+    dead   = []
+    n_dead = 0
     
     ips   = []
     n_ips = 0
     
-    dead   = []
-    n_dead = 0
-    
     urls   = []
     n_urls = 0
+
+
+    def init( self ):
+        func.parseargs( self, _config )
+    
+
+    def run( self ):
+        for mod_name in self.mods:
+            mod_name = mod_name.lower()
+            filepath = os.path.dirname( os.path.realpath(__file__) ) + '/' + mod_name + '.py'
+            py_mod = imp.load_source( mod_name.capitalize(), filepath)
+            mod = getattr( py_mod, mod_name.capitalize() )()
+            mod.run( self )
 
 
     def wait( self ):
@@ -89,7 +108,7 @@ class App( object ):
             sys.stdout.write( '[+] saved in %s\n' % self.f_hosts )
 
 
-    def setIps( self, t_ips, full_output ):
+    def setIps( self, t_ips, tmphosts ):
         self.ips = t_ips
         self.n_ips = len(t_ips)
         sys.stdout.write( '%s[+] %d ips found.%s\n' %  (fg('green'),self.n_ips,attr(0)) )
@@ -100,9 +119,10 @@ class App( object ):
             fp.close()
             sys.stdout.write( '[+] saved in %s\n' % self.f_ips )
 
-        fp = open( self.f_tmphosts, 'w' )
-        fp.write( full_output )
-        fp.close()
+        if len(tmphosts):
+            fp = open( self.f_tmphosts, 'w' )
+            fp.write( tmphosts )
+            fp.close()
 
 
     def setDeadHosts( self, t_dead ):
@@ -112,20 +132,12 @@ class App( object ):
             self.hosts.remove( host )
 
 
-    def createUrls( self ):
-        sys.stdout.write( '[+] creating urls...\n' )
-
-        for host in self.hosts:
-            self.urls.append( 'http://'+host )
-            self.urls.append( 'https://'+host )
-        for ip in self.ips:
-            self.urls.append( 'http://'+ip )
-            self.urls.append( 'https://'+ip )
-
-        self.n_urls = len( self.urls )
+    def setUrls( self, t_urls ):
+        self.urls = t_urls
+        self.n_urls = len(t_urls)
         sys.stdout.write( '%s[+] %d urls created.%s\n' %  (fg('green'),self.n_urls,attr(0)) )
 
-        if self.urls:
+        if self.n_urls:
             fp = open( self.f_urls, 'w' )
             fp.write( "\n".join(self.urls) )
             fp.close()

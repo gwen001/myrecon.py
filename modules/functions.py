@@ -7,11 +7,11 @@ import argparse
 import tldextract
 
 
-def parseargs( app, t_available_mods ):
+def parseargs( app, config ):
     parser = argparse.ArgumentParser()
     parser.add_argument( "-d","--domain",help="domain, single, multiples or files", action="append" )
     parser.add_argument( "-o","--output",help="output dir" )
-    parser.add_argument( "-m","--mod",help="mods to run, can be: resolve, screenshots, quickhits, crlf, openredirect. Default: resolve,screenshots,quickhits" )
+    parser.add_argument( "-m","--mod",help="mods to run, can be: "+', '.join(config['available_mods'])+". Default: all" )
     parser.parse_args()
     args = parser.parse_args()
 
@@ -48,23 +48,23 @@ def parseargs( app, t_available_mods ):
     if args.mod:
         t_mods = []
         for m in args.mod.split(','):
-            if not m in t_available_mods and m != 'all':
+            if not m in config['available_mods'] and m != 'all':
                 parser.error( ("mod '%s' doesn't exist" % m) )
                 # sys.stdout.write( "%s[-] mod %s doesn't exist.%s\n" % (fg('red'),m,attr(0)) )
             else:
                 if m == 'all':
-                    t_mods = t_available_mods
+                    t_mods = config['available_mods']
                     break
                 else:
                     t_mods.append( m )
         if not len(t_mods):
             parser.error( 'mod missing' )
     else:
-        t_mods = t_available_mods
+        t_mods = config['available_mods']
 
     app.setOutputDirectory( d_output )
     app.setDomains( t_domains )
-    app.setMods( t_mods )
+    app.setMods( config['mandatory_mods']+t_mods )
 
 
 def isDomain( str ):
