@@ -9,7 +9,7 @@ from modules import functions as func
 from colored import fg, bg, attr
 
 
-class App( object ):
+class App:
     config = []
     mods = []
     
