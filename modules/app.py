@@ -8,12 +8,9 @@ import time
 from modules import functions as func
 from colored import fg, bg, attr
 
-_config = {
-    'available_mods': ['screenshot', 'quickhits', 'crlf', 'openredirect'],
-    'mandatory_mods' : ['subdomains', 'resolve', 'urls']
-}
 
 class App( object ):
+    config = []
     mods = []
     
     d_output   = ''
@@ -40,11 +37,13 @@ class App( object ):
     n_urls = 0
 
 
-    def init( self ):
-        func.parseargs( self, _config )
-    
+    def __init__( self, config ):
+        self.config = config
+
 
     def run( self ):
+        func.parseargs( self )
+
         for mod_name in self.mods:
             mod_name = mod_name.lower()
             filepath = os.path.dirname( os.path.realpath(__file__) ) + '/' + mod_name + '.py'
