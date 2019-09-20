@@ -11,10 +11,28 @@ class Screenshot:
 
     def run( self, app ):
         sys.stdout.write( '[+] running mod: screenshots\n' )
-        cmd = 'EyeWitness --headless -f "' + app.f_urls + '" --user-agent "Mozilla/5.0 (X11; Linux i586; rv:63.0) Gecko/20100101 Firefox/63.0" --no-prompt --threads 10 -d ' + app.d_output + '/eye 2>&1 >/dev/null &'
+        cmd = eval( app.config['screenshot']['command'] )
         os.system( cmd )
         # try:
         #     # print(cmd)
         #     subprocess.Popen( cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL )
         # except Exception as e:
         #     sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
+
+
+    def getReportDatas( self, app ):
+        t_vars = {}
+        t_vars['n_screenshots'] = '-'
+        d_output = app.d_output + app.config['screenshot']['output_dir']
+
+        if os.path.isdir(d_output):
+            cmd = 'find "' + d_output + '" -name "*.png" | wc -l'
+            try:
+                output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
+                t_vars['n_screenshots'] = output
+            except Exception as e:
+                ex = 1
+                # sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
+
+        return t_vars
+

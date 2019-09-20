@@ -11,7 +11,7 @@ def parseargs( app ):
     parser = argparse.ArgumentParser()
     parser.add_argument( "-d","--domain",help="domain, single, multiples or files", action="append" )
     parser.add_argument( "-o","--output",help="output dir" )
-    parser.add_argument( "-m","--mod",help="mods to run, can be: "+', '.join(app.config['available_mods'])+". Default: all" )
+    parser.add_argument( "-m","--mod",help="mods to run, can be: report, "+', '.join(app.config['available_mods'])+". Default: all but report" )
     parser.parse_args()
     args = parser.parse_args()
 
@@ -28,8 +28,31 @@ def parseargs( app ):
     else:
         d_output = os.getcwd()
 
+    t_mods = []
+    if args.mod:
+        args.mod = args.mod.lower()
+        if args.mod == 'all':
+            t_mods = app.config['available_mods']
+            # t_mods.remove( 'report' )
+        else:
+            args_mods = args.mod.split(',')
+            if 'report' in args_mods:
+                t_mods = ['report']
+            else:
+                for m in args_mods:
+                    mod_file = os.path.dirname( os.path.realpath(__file__) ) + '/' + m + '.py'
+                    if not m in app.config['available_mods'] or not os.path.isfile(mod_file):
+                        parser.error( "[-] error occurred: %s not supported" % m )
+                        exit()
+                    t_mods.append( m )
+    else:
+        t_mods = app.config['available_mods']
+        # t_mods.remove( 'report' )
+        if not len(t_mods):
+            parser.error( 'mod missing' )
+    
+    t_domains = []
     if args.domain:
-        t_domains = []
         for d in args.domain:
             if os.path.isfile(d):
                 sys.stdout.write( '[+] loading file: %s\n' %  d )
@@ -40,31 +63,17 @@ def parseargs( app ):
             else:
                 if isDomain( d ) and d not in t_domains:
                     t_domains.append( d )
+    
+    app.setOutputDirectory( d_output )
+
+    if not 'report' in t_mods:
+        t_mods = app.config['mandatory_mods'] + t_mods
         if not len(t_domains):
             parser.error( 'domain missing' )
-    else:
-        parser.error( 'domain missing' )
-
-    if args.mod:
-        t_mods = []
-        for m in args.mod.split(','):
-            if not m in app.config['available_mods'] and m != 'all':
-                parser.error( ("mod '%s' doesn't exist" % m) )
-                # sys.stdout.write( "%s[-] mod %s doesn't exist.%s\n" % (fg('red'),m,attr(0)) )
-            else:
-                if m == 'all':
-                    t_mods = app.config['available_mods']
-                    break
-                else:
-                    t_mods.append( m )
-        if not len(t_mods):
-            parser.error( 'mod missing' )
-    else:
-        t_mods = app.config['available_mods']
-
-    app.setOutputDirectory( d_output )
-    app.setDomains( t_domains )
-    app.setMods( app.config['mandatory_mods']+t_mods )
+        else:
+            app.setDomains( t_domains )
+    
+    app.setMods( t_mods )
 
 
 def isDomain( str ):

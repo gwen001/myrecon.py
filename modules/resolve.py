@@ -1,6 +1,7 @@
 # I don't believe in license.
 # You can do whatever you want with this program.
 
+import os
 import re
 import sys
 import subprocess
@@ -23,8 +24,8 @@ class Resolve:
             'n_total': app.n_hosts
         }
 
-        pool = Pool( 10 )
-        pool.map( partial(self.resolve,t_multiproc), app.hosts )
+        pool = Pool( app.config['resolve']['threads'] )
+        pool.map( partial(self.resolve,app,t_multiproc), app.hosts )
         pool.close()
         pool.join()
 
@@ -32,12 +33,13 @@ class Resolve:
         app.setDeadHosts( self.dead_host )
 
 
-    def resolve( self, t_multiproc, host ):
+    def resolve( self, app, t_multiproc, host ):
         sys.stdout.write( 'progress: %d/%d\r' %  (t_multiproc['n_current'],t_multiproc['n_total']) )
         t_multiproc['n_current'] = t_multiproc['n_current'] + 1
 
         try:
-            cmd = 'host ' + host
+            cmd = eval( app.config['resolve']['command'] )
+            # print(cmd)
             output = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True ).decode('utf-8')
             # print(output)
             # ip = socket.gethostbyname( host )
@@ -53,5 +55,13 @@ class Resolve:
                 if not ip in self.ips:
                     self.ips.append( ip )
         else:
-            if host not in sef.dead_host:
+            if host not in self.dead_host:
                 self.dead_host.append( host )
+
+
+    def getReportDatas( self, app ):
+        t_vars = {}
+        if os.path.isfile(app.f_ips):
+            t_vars['n_ips'] = sum(1 for line in open(app.f_ips))
+        return t_vars
+

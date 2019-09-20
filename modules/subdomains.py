@@ -1,6 +1,7 @@
 # I don't believe in license.
 # You can do whatever you want with this program.
 
+import os
 import re
 import sys
 import subprocess
@@ -13,6 +14,10 @@ class Subdomains:
     hosts = []
 
 
+    def __init( self, app ):
+        self.app = app
+
+
     def run( self, app ):
         sys.stdout.write( '[+] looking for subdomains...\n' )
 
@@ -21,21 +26,20 @@ class Subdomains:
             'n_total': app.n_domains
         }
 
-        pool = Pool( 3 )
-        pool.map( partial(self.find,t_multiproc), app.domains )
+        pool = Pool( app.config['subdomains']['threads'] )
+        pool.map( partial(self.find,app,t_multiproc), app.domains )
         pool.close()
         pool.join()
 
         app.setHosts( self.hosts )
 
 
-    def find( self, t_multiproc, domain ):
+    def find( self, app, t_multiproc, domain ):
         sys.stdout.write( 'progress: %d/%d\r' %  (t_multiproc['n_current'],t_multiproc['n_total']) )
         t_multiproc['n_current'] = t_multiproc['n_current'] + 1
 
         try:
-            # cmd = 'findomain -t ' + domain
-            cmd = 'assetfinder -subs-only  ' + domain
+            cmd = eval( app.config['subdomains']['command'] )
             output = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True ).decode('utf-8')
             # print(output)
         except Exception as e:
@@ -48,3 +52,11 @@ class Subdomains:
                 sub = sub.strip('._- ')
                 if sub not in self.hosts:
                     self.hosts.append( sub )
+
+
+    def getReportDatas( self, app ):
+        t_vars = {}
+        if os.path.isfile(app.f_hosts):
+            t_vars['n_hosts'] = sum(1 for line in open(app.f_hosts))
+        return t_vars
+

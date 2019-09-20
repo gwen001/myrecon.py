@@ -2,8 +2,8 @@
 # You can do whatever you want with this program.
 
 import os
-import imp
 import sys
+import imp
 import time
 from modules import functions as func
 from colored import fg, bg, attr
@@ -13,7 +13,10 @@ class App:
     config = []
     mods = []
     
+    d_app      = ''
+    d_mods     = ''
     d_output   = ''
+    f_report   = ''
     f_domains  = ''
     f_hosts    = ''
     f_tmphosts = ''
@@ -39,17 +42,24 @@ class App:
 
     def __init__( self, config ):
         self.config = config
+        self.d_app = os.path.dirname( os.path.dirname( os.path.realpath(__file__) ) )
+        self.d_mods = self.d_app + '/modules'
+
+
+    def init( self ):
+        func.parseargs( self )
 
 
     def run( self ):
-        func.parseargs( self )
-
         for mod_name in self.mods:
             mod_name = mod_name.lower()
-            filepath = os.path.dirname( os.path.realpath(__file__) ) + '/' + mod_name + '.py'
-            py_mod = imp.load_source( mod_name.capitalize(), filepath)
-            mod = getattr( py_mod, mod_name.capitalize() )()
-            mod.run( self )
+            mod_file = self.d_mods + '/' + mod_name + '.py'
+            if not os.path.isfile(mod_file):
+                sys.stdout.write( "%s[-] error occurred: %s not found%s\n" % (fg('red'),mod_name,attr(0)) )
+            else:
+                py_mod = imp.load_source( mod_name.capitalize(), mod_file)
+                mod = getattr( py_mod, mod_name.capitalize() )()
+                mod.run( self )
 
 
     def wait( self ):
@@ -75,6 +85,7 @@ class App:
 
 
     def initFilePath( self ):
+        self.f_report   = self.d_output + '/report'
         self.f_domains  = self.d_output + '/domains'
         self.f_hosts    = self.d_output + '/hosts'
         self.f_tmphosts = self.d_output + '/tmp_hosts'
@@ -141,3 +152,11 @@ class App:
             fp.write( "\n".join(self.urls) )
             fp.close()
             sys.stdout.write( '[+] saved in %s\n' % self.f_urls )
+    
+
+    def getReportDatas( self ):
+        t_vars = {}
+        if os.path.isfile(self.f_domains):
+            t_vars['n_domains'] = sum(1 for line in open(self.f_domains))
+        return t_vars
+
