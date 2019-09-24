@@ -13,10 +13,13 @@ __N_URLS__
 [+] mod: screenshot:
 __N_SCREENSHOTS__
 
+[+] mod: portscan:
+__PORTSCAN_OPEN__
+
 [+] mod: crlf (vulnerable):
 __CRLF_VULNERABLE__
 
-[+] mod: oenredirect (vulnerable):
+[+] mod: openredirect (vulnerable):
 __OPENREDIRECT_VULNERABLE__
 
 [+] mod: quickhits (200):

@@ -29,7 +29,7 @@ class Report:
                 mod = getattr( py_mod, mod_name.capitalize() )()
                 tpl_vars.update( mod.getReportDatas(app).items() )
 
-        print( tpl_vars )
+        # print( tpl_vars )
 
         f_template = app.d_app + '/' + app.config['report_template']
         s_template = open(f_template,'r').read()
@@ -41,4 +41,6 @@ class Report:
         fp = open(app.f_report,'w')
         fp.write( s_template )
         fp.close()
+
+        sys.stdout.write( "%s[+] report generated: %s%s\n" % (fg('green'),app.f_report,attr(0)) )
 

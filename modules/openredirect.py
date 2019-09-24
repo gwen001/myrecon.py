@@ -8,6 +8,7 @@ from colored import fg, bg, attr
 
 
 class Openredirect:
+    
     def run( self, app ):
         sys.stdout.write( '[+] running mod: openredirect\n'  )
         cmd = eval( app.config['openredirect']['command'] )

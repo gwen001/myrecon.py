@@ -6,9 +6,9 @@ import os
 
 
 config = {
-    'available_mods': ['screenshot', 'quickhits', 'crlf', 'openredirect', 'googledorks'],
+    'available_mods': ['portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'googledorks', 'wayback'],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls'],
-    'forbidden_mods' : ['app', 'functions'],
+    'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
     'subdomains': {
         'threads': 5,
@@ -39,10 +39,18 @@ config = {
     },
     'googledorks': {
         'threads': 5,
-        'n_pages': 1,
+        'n_pages': 5,
         'urldecode': True,
         'dorks_file': '/opt/SecLists/mine/gg-dorks.txt',
         'fb_cookie': os.getenv( 'FACEBOOK_COOKIE' )
+    },
+    'wayback': {
+        'threads': 2,
+        'include_subdomains': True,
+    },
+    'portscan': {
+        'output_file': '/portscan/output',
+        'command': "'sudo masscan -p0-65535 --rate=10000 --open-only -iL ' + app.f_ips + ' -oX \"portscan/output\" 2>&1 >/dev/null &'"
     }
 }
 
@@ -57,5 +65,14 @@ app.run()
 
 
 ######### TODO
-# waybackurls
-# masscan
+
+# quickhits
+    # gf mykeys
+    # gf noisy
+    # gf takeovers
+    # gf dlisting
+    # gi ips local
+    # gf emails
+    # new subdomains
+
+# bucket search (domain)

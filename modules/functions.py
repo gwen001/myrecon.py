@@ -9,6 +9,7 @@ import tldextract
 
 def parseargs( app ):
     parser = argparse.ArgumentParser()
+    parser.add_argument( "-r","--resume",help="resume previous recon", action="store_true" )
     parser.add_argument( "-d","--domain",help="domain, single, multiples or files", action="append" )
     parser.add_argument( "-o","--output",help="output dir" )
     parser.add_argument( "-m","--mod",help="mods to run, can be: report, "+', '.join(app.config['available_mods'])+". Default: all but report" )
@@ -67,11 +68,14 @@ def parseargs( app ):
     app.setOutputDirectory( d_output )
 
     if not 'report' in t_mods:
-        t_mods = app.config['mandatory_mods'] + t_mods
-        if not len(t_domains):
-            parser.error( 'domain missing' )
+        if args.resume:
+            t_mods = ['resume'] + t_mods
         else:
-            app.setDomains( t_domains )
+            t_mods = app.config['mandatory_mods'] + t_mods
+            if not len(t_domains):
+                parser.error( 'domain missing' )
+            else:
+                app.setDomains( t_domains )
     
     app.setMods( t_mods )
 
