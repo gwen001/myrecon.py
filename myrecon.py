@@ -6,7 +6,7 @@ import os
 
 
 config = {
-    'optional_mods': ['portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'googledorks', 'wayback','subto'],
+    'optional_mods': ['portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'googledorks', 'wayback','subto','xss'],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
@@ -55,6 +55,10 @@ config = {
     'subto': {
         'output_file': '/subto/output',
         'command': "'subjack -a -t 50 -timeout 20 -ssl -c \"/opt/SecLists/mine/subjack_fingerprints.json\" -v -w \"' + app.f_hosts + '\" -o \"subto/output\" 2>&1 >/dev/null &'"
+    },
+    'xss': {
+        'output_file': '/xss/output',
+        'command': "'testxss --no-color --encode --threads 10 --gpg --phantom \"/usr/local/bin/phantomjs\" --payload \"/opt/SecLists/mine/xss-myshort.txt\" --prefix --suffix --sos --urls \"' + app.f_urls + '\" > xss/output &'"
     },
     'extractjuicy': {
         'output_file': '/juicy',
