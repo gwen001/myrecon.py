@@ -8,8 +8,9 @@ from colored import fg, bg, attr
 
 
 class Crlf:
+    
     def run( self, app ):
-        sys.stdout.write( '[+] running mod: crlf\n'  )
+        sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
         cmd = eval( app.config['crlf']['command'] )
         os.system( cmd )
         # try:

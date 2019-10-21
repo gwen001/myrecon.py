@@ -10,7 +10,7 @@ from colored import fg, bg, attr
 class Openredirect:
     
     def run( self, app ):
-        sys.stdout.write( '[+] running mod: openredirect\n'  )
+        sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
         cmd = eval( app.config['openredirect']['command'] )
         os.system( cmd )
         # try:

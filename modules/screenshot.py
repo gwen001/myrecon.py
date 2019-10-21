@@ -10,7 +10,7 @@ from colored import fg, bg, attr
 class Screenshot:
 
     def run( self, app ):
-        sys.stdout.write( '[+] running mod: screenshots\n' )
+        sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
         cmd = eval( app.config['screenshot']['command'] )
         os.system( cmd )
         # try:

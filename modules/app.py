@@ -52,14 +52,35 @@ class App:
 
     def run( self ):
         for mod_name in self.mods:
-            mod_name = mod_name.lower()
-            mod_file = self.d_mods + '/' + mod_name + '.py'
-            if not os.path.isfile(mod_file):
-                sys.stdout.write( "%s[-] error occurred: %s not found%s\n" % (fg('red'),mod_name,attr(0)) )
+            if mod_name in self.config['mandatory_mods'] or 'resume' in self.mods or 'report' in self.mods:
+            # if mod_name in self.config['mandatory_mods'] or 'resume' in self.mods:
+                self.runMod( mod_name )
             else:
-                py_mod = imp.load_source( mod_name.capitalize(), mod_file)
-                mod = getattr( py_mod, mod_name.capitalize() )()
+                self.launchMod( mod_name )
+
+
+    def runMod( self, mod_name ):
+        mod_file = self.d_mods + '/' + mod_name + '.py'
+
+        if not os.path.isfile(mod_file):
+            sys.stdout.write( "%s[-] error occurred: %s not found%s\n" % (fg('red'),mod_name,attr(0)) )
+        else:
+            py_mod = imp.load_source( mod_name.capitalize(), mod_file)
+            mod = getattr( py_mod, mod_name.capitalize() )()
+            try:
                 mod.run( self )
+            except Exception as e:
+                sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
+            # if hasattr(mod,'postrun'):
+            #     mod.postrun( self )
+            # if hasattr(mod,'report'):
+            #     mod.report( self )
+
+
+    def launchMod( self, mod_name ):
+        cmd = sys.argv[0] + ' -r -m ' + mod_name + ' 2>&1 &'
+        # print( cmd )
+        os.system( cmd )
 
 
     def wait( self ):
@@ -79,7 +100,7 @@ class App:
 
 
     def setOutputDirectory( self, d_output ):
-        self.d_output = os.getcwd().rstrip('/')
+        self.d_output = d_output.rstrip('/')
         sys.stdout.write( '[+] output directory is: %s\n' % self.d_output )
         self.initFilePath()
 

@@ -12,7 +12,7 @@ def parseargs( app ):
     parser.add_argument( "-r","--resume",help="resume previous recon", action="store_true" )
     parser.add_argument( "-d","--domain",help="domain, single, multiples or files", action="append" )
     parser.add_argument( "-o","--output",help="output dir" )
-    parser.add_argument( "-m","--mod",help="mods to run, can be: report, "+', '.join(app.config['available_mods'])+". Default: all but report" )
+    parser.add_argument( "-m","--mod",help="mods to run, can be: report, "+', '.join(app.config['optional_mods'])+". Default: all but report" )
     parser.parse_args()
     args = parser.parse_args()
 
@@ -33,7 +33,7 @@ def parseargs( app ):
     if args.mod:
         args.mod = args.mod.lower()
         if args.mod == 'all':
-            t_mods = app.config['available_mods']
+            t_mods = app.config['optional_mods']
             # t_mods.remove( 'report' )
         else:
             args_mods = args.mod.split(',')
@@ -42,12 +42,12 @@ def parseargs( app ):
             else:
                 for m in args_mods:
                     mod_file = os.path.dirname( os.path.realpath(__file__) ) + '/' + m + '.py'
-                    if not m in app.config['available_mods'] or not os.path.isfile(mod_file):
+                    if not m in app.config['optional_mods'] or not os.path.isfile(mod_file):
                         parser.error( "[-] error occurred: %s not supported" % m )
                         exit()
                     t_mods.append( m )
     else:
-        t_mods = app.config['available_mods']
+        t_mods = app.config['optional_mods']
         # t_mods.remove( 'report' )
         if not len(t_mods):
             parser.error( 'mod missing' )

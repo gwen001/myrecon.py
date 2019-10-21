@@ -16,7 +16,7 @@ class Wayback:
 
 
     def run( self, app ):
-        sys.stdout.write( '[+] running mod: wayback\n'  )
+        sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
         self.d_output = app.d_output + self.d_output
         if not os.path.isdir(self.d_output):

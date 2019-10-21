@@ -14,10 +14,6 @@ class Subdomains:
     hosts = []
 
 
-    def __init( self, app ):
-        self.app = app
-
-
     def run( self, app ):
         sys.stdout.write( '[+] looking for subdomains...\n' )
 

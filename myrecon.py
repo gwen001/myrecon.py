@@ -6,7 +6,7 @@ import os
 
 
 config = {
-    'available_mods': ['portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'googledorks', 'wayback'],
+    'optional_mods': ['portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'googledorks', 'wayback','subto'],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
@@ -35,7 +35,7 @@ config = {
     },
     'quickhits': {
         'output_file': '/quickhits/output',
-        'command': "'quick-hits.py -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + app.f_urls + '\" 2>&1 >/dev/null &'"
+        'command': "'quick-hits.py -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + app.f_urls + '\" 2>&1 >/dev/null'"
     },
     'googledorks': {
         'threads': 5,
@@ -51,7 +51,49 @@ config = {
     'portscan': {
         'output_file': '/portscan/output',
         'command': "'sudo masscan -p0-65535 --rate=10000 --open-only -iL ' + app.f_ips + ' -oX \"portscan/output\" 2>&1 >/dev/null &'"
-    }
+    },
+    'subto': {
+        'output_file': '/subto/output',
+        'command': "'subjack -a -t 50 -timeout 20 -ssl -c \"/opt/SecLists/mine/subjack_fingerprints.json\" -v -w \"' + app.f_hosts + '\" -o \"subto/output\" 2>&1 >/dev/null &'"
+    },
+    'extractjuicy': {
+        'output_file': '/juicy',
+        'regexp': [
+            "[a-z0-9._-]*s3[a-z0-9.-]*\\.amazonaws\\.com[\\\\]?/?([a-z0-9._-]+)?",
+            "xox[pboa]-[0-9]{10,12}-[0-9]{10,12}(-[0-9]{10,12})?-[a-zA-Z0-9]{24,32}",
+            "T[a-zA-Z0-9_]{8}[\\\\]?/B[a-zA-Z0-9_]{8}[\\\\]?/[a-zA-Z0-9_]{24}",
+            "(AKIA|A3T|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{12,}",
+            "[psr]k_live_[0-9a-zA-Z]{24,34}",
+            "(AC|SK)[0-9a-f]{32}",
+            "AIza[0-9A-Za-z_-]{35}",
+            "[0-9]+-[0-9A-Za-z_]{32}\\.apps\\.googleusercontent\\.com",
+            "([gG][oO][oO][gG][lL][eE]).{0,20}[ '\\\"=:(\\[{]+.{0,5}[0-9a-zA-Z_-]{24}",
+            "SG\\.[a-zA-Z0-9_-]{22}\\.[a-zA-Z0-9_-]{43}",
+            "[0-9a-f]{32}-us[0-9]{1,2}",
+            "key-[0-9a-zA-Z]{32}",
+            "sq0(atp|csp)-[0-9A-Za-z_-]{22,43}",
+            "EAAA[0-9a-zA-Z_-]{60}",
+            "access_token\\$(live|production|sandbox)\\$[0-9a-z]{16}\\$[0-9a-f]{32}",
+            "[^0-9a-zA-Z_-][AE][0-9a-zA-Z_-]{79}",
+            "A21AA[0-9a-zA-Z_-]{92}",
+            "([fF][aA][cC][eE][bB][oO][oO][kK]).{0,20}[ '\\\"=:(\\[{]+.{0,5}[0-9a-f]{32}",
+            "EAACEdEose0cBA[0-9A-Za-z]+",
+            "[0-9]{10,20}\\|[a-zA-Z0-9-]{20,30}",
+            "([tT][wW][iI][tT][tT][eE][rR]).{0,20}[ '\\\"=:(\\[{]+.{0,5}[0-9a-zA-Z]{35,44}",
+            "([tT][wW][iI][tT][tT][eE][rR]).{0,20}[ '\\\"=:(\\[{]+.{0,5}[1-9][0-9]+-[0-9a-zA-Z]{24,40}",
+            "AAAAAAAAAAAAAAAAAAAAA[0-9A-Za-z%=\\+]+",
+            "([gG][iI][tT][hH][uU][bB]).{0,20}[ '\\\"=:(\\[{]+.{0,5}[0-9a-zA-Z]{35,40}",
+            "([hH][eE][rR][oO][kK][uU]).{0,20}[ '\\\"=:(\\[{]+.{0,5}[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}",
+            "[a-z\\+]{3,}:[/]{1,3}[^:'\\\" ]{2,}:[^@'\\\" ]{3,}@[^'\\\" ]+",
+            "ya29\\.[0-9A-Za-z_-]+",
+            "sk_live_[0-9a-z]{32}",
+            "amzn\\.mws\\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            "[a-zA-Z0-9_-]+\\.(firebaseio|azurewebsites|cloudapp|trafficmanager|herokuapp|cloudfront)\\.(com|net)",
+            "\\-\\-\\-\\-\\-BEGIN[ ]+[A-Z]*[ ]*PRIVATE[ ]+KEY",
+            "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
+            "ey[A-Za-z0-9_=-]+\\.ey[A-Za-z0-9_=-]+\\.?[A-Za-z0-9_.+/=-]*"
+        ],
+    },
 }
 
 
@@ -71,7 +113,7 @@ app.run()
     # gf noisy
     # gf takeovers
     # gf dlisting
-    # gi ips local
+    # gf ips local
     # gf emails
     # new subdomains
 
