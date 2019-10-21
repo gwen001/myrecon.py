@@ -4,6 +4,7 @@
 import os
 import sys
 import subprocess
+from modules import functions as func
 from colored import fg, bg, attr
 
 
@@ -24,6 +25,7 @@ class Xss:
 
         self.f_output = self.d_output + '/' + self.f_output
 
+        f_source = func.generateUrlsFile( app, True, False, False )
         cmd = eval( app.config['xss']['command'] )
         os.system( cmd )
         # try:

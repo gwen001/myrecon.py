@@ -3,6 +3,7 @@
 
 import os
 import sys
+import random
 import argparse
 import tldextract
 
@@ -86,3 +87,27 @@ def isDomain( str ):
         return True
     else:
         return False
+
+
+def generateUrlsFile( app, hosts, ips, http ):
+    t_urls = []
+    f_urls = '/tmp/tempurls_' + str(random.randint(1000,9999))
+
+    fp = open( f_urls, 'w' )
+
+    if hosts and len(app.hosts):
+        for h in app.hosts:
+            fp.write( 'https://'+h+'\n' )
+            if http:
+                fp.write( 'http://'+h+'\n' )
+    
+    if ips and len(app.ips):
+        for i in app.ips:
+            fp.write( 'https://'+i+'\n' )
+            if http:
+                fp.write( 'http://'+i+'\n' )
+
+    fp.close()
+
+    return f_urls
+    

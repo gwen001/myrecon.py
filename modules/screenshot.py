@@ -4,6 +4,7 @@
 import os
 import sys
 import subprocess
+from modules import functions as func
 from colored import fg, bg, attr
 
 
@@ -11,6 +12,8 @@ class Screenshot:
 
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
+
+        f_source = func.generateUrlsFile( app, True, True, True )
         cmd = eval( app.config['screenshot']['command'] )
         os.system( cmd )
         # try:
