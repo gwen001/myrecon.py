@@ -16,6 +16,9 @@ __N_SCREENSHOTS__
 [+] mod: portscan:
 __PORTSCAN_OPEN__
 
+[+] mod: subto (vulnerable):
+__SUBTO_VULNERABLE__
+
 [+] mod: crlf (vulnerable):
 __CRLF_VULNERABLE__
 
