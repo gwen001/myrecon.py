@@ -35,17 +35,17 @@ class Subto:
 
     def getReportDatas( self, app ):
         t_vars = {}
-        # t_vars['crlf_vulnerable'] = '-'
-        # f_output = app.d_output + app.config['crlf']['output_file']
+        t_vars['subto_vulnerable'] = '-'
+        f_output = app.d_output + app.config['subto']['output_file']
 
-        # if os.path.isfile(f_output):
-        #     cmd = 'egrep VULNERABLE ' + f_output
-        #     try:
-        #         output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
-        #         t_vars['crlf_vulnerable'] = output
-        #     except Exception as e:
-        #         ex = 1
-        #         # sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
+        if os.path.isfile(f_output):
+            cmd = 'egrep -v "Not Vulnerable" ' + f_output
+            try:
+                output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
+                t_vars['subto_vulnerable'] = output
+            except Exception as e:
+                ex = 1
+                # sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
 
         return t_vars
 
