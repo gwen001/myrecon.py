@@ -39,7 +39,7 @@ class Xss:
         f_output = app.d_output + app.config['xss']['output_file']
 
         if os.path.isfile(f_output):
-            cmd = 'egrep -v "VULNERABLE" ' + f_output
+            cmd = 'egrep "VULNERABLE" ' + f_output
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
                 t_vars['xss_vulnerable'] = output
