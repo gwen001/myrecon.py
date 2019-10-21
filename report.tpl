@@ -25,6 +25,9 @@ __CRLF_VULNERABLE__
 [+] mod: openredirect (vulnerable):
 __OPENREDIRECT_VULNERABLE__
 
+[+] mod: xss (vulnerable):
+__XSS_VULNERABLE__
+
 [+] mod: quickhits (200):
 __QUICKHITS__
 
