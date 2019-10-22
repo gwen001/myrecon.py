@@ -116,7 +116,7 @@ class Googledorks:
         #         self.results[dork] = []
         #     self.results[dork].append( link )
         
-        search_results = goop.search( dork, app.config['googledorks']['fb_cookie'], page=page )
+        search_results = goop.search( dork, app.config['googledorks']['fb_cookie'], page=page, True )
         # print(search_results)
 
         for i in search_results:
