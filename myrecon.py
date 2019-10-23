@@ -27,15 +27,15 @@ config = {
     },
     'crlf': {
         'output_file': '/crlf/output',
-        'command': "'crlf.py -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'crlf.py -t 100 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
     'openredirect': {
         'output_file': '/openredirect/output',
-        'command': "'open-redirect.py -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'open-redirect.py -t 100 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
     'quickhits': {
         'output_file': '/quickhits/output',
-        'command': "'quick-hits.py -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null'"
+        'command': "'quick-hits.py -t 200 -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null'"
     },
     'googledorks': {
         'threads': 5,
