@@ -39,7 +39,7 @@ config = {
     },
     'googledorks': {
         'threads': 5,
-        'n_pages': 5,
+        'n_pages': 1,
         'urldecode': True,
         'dorks_file': '/opt/SecLists/mine/gg-dorks.txt',
         'fb_cookie': os.getenv( 'FACEBOOK_COOKIE' )
