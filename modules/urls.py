@@ -15,9 +15,9 @@ class Urls:
         for host in app.hosts:
             urls.append( 'http://'+host )
             urls.append( 'https://'+host )
-        for ip in app.ips:
-            urls.append( 'http://'+ip )
-            urls.append( 'https://'+ip )
+        # for ip in app.ips:
+        #     urls.append( 'http://'+ip )
+        #     urls.append( 'https://'+ip )
 
         app.setUrls( urls )
 

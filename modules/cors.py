@@ -8,13 +8,13 @@ from modules import functions as func
 from colored import fg, bg, attr
 
 
-class Crlf:
+class Cors:
     
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
-        f_source = func.generateUrlsFile( app, True, False, True )
-        cmd = eval( app.config['crlf']['command'] )
+        f_source = app.f_hosts
+        cmd = eval( app.config['cors']['command'] )
         os.system( cmd )
         # try:
         #     # print(cmd)
@@ -25,14 +25,14 @@ class Crlf:
 
     def getReportDatas( self, app ):
         t_vars = {}
-        t_vars['crlf_vulnerable'] = '-'
-        f_output = app.d_output + app.config['crlf']['output_file']
+        t_vars['cors_vulnerable'] = '-'
+        f_output = app.d_output + app.config['cors']['output_file']
 
         if os.path.isfile(f_output):
             cmd = 'egrep VULNERABLE ' + f_output
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
-                t_vars['crlf_vulnerable'] = output
+                t_vars['cors_vulnerable'] = output
             except Exception as e:
                 ex = 1
                 # sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )

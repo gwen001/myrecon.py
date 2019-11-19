@@ -3,13 +3,17 @@
 
 import os
 import sys
+import json
 import subprocess
 from xml.etree import ElementTree as ET
 from colored import fg, bg, attr
 
 
 class Portscan:
-    
+    max_ports_open = 10
+    ips_hosts = {}
+    f_ips_hosts = '/ips_hosts'
+
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
@@ -20,7 +24,7 @@ class Portscan:
             except Exception as e:
                 sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
                 return
-        
+
         cmd = eval( app.config['portscan']['command'] )
         os.system( cmd )
 
@@ -49,15 +53,35 @@ class Portscan:
                         if not port in t_portscan[ip]:
                             t_portscan[ip].append( port )
 
-                portscan_open = ''
-                for ip in t_portscan.keys():
-                    portscan_open = portscan_open + ip + ' -> ' + ', '.join(map(str,sorted(t_portscan[ip]))) + "\n"
             except Exception as e:
                 # sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
                 portscan_open = '-'
-        else:
-            portscan_open = '-'
-        
+
+        t_urls = []
+        portscan_open = ''
+
+        f_ips_hosts = app.d_output + self.f_ips_hosts
+        if os.path.isfile(f_ips_hosts):
+            with open(f_ips_hosts) as json_file:
+                self.ips_hosts = json.load( json_file )
+
+        for ip in t_portscan.keys():
+            if len(t_portscan[ip]) <= self.max_ports_open:
+                portscan_open = portscan_open + ip + ' -> ' + ', '.join(map(str,sorted(t_portscan[ip]))) + "\n"
+                for port in sorted(t_portscan[ip]):
+                    if not port == 80:
+                        t_urls.append( 'https://'+ip+':'+str(port) )
+                    if not port == 443:
+                        t_urls.append( 'http://'+ip+':'+str(port) )
+                    if ip in self.ips_hosts:
+                        for host in self.ips_hosts[ip]:
+                            if not port == 80 and not port == 443:
+                                t_urls.append( 'http://'+host+':'+str(port) )
+                                t_urls.append( 'https://'+host+':'+str(port) )
+
+        if len(t_urls):
+            app.setUrlsIps( t_urls )
+
         t_vars['portscan_open'] = portscan_open
         return t_vars
 

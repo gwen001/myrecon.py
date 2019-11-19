@@ -110,9 +110,10 @@ class App:
         self.f_domains  = self.d_output + '/domains'
         self.f_hosts    = self.d_output + '/hosts'
         self.f_tmphosts = self.d_output + '/tmp_hosts'
-        self.f_dead     = self.d_output + '/dead'
+        self.f_dead     = self.d_output + '/hosts_dead'
         self.f_ips      = self.d_output + '/ips'
         self.f_urls     = self.d_output + '/urls'
+        self.f_urls_ips = self.d_output + '/urls_ips'
 
 
     def setDomains( self, t_domains ):
@@ -159,8 +160,13 @@ class App:
     def setDeadHosts( self, t_dead ):
         sys.stdout.write( '[+] %d dead hosts found, cleaning...\n' %  len(t_dead) )
 
-        for host in t_dead:
-            self.hosts.remove( host )
+        if len(t_dead):
+            for host in t_dead:
+                self.hosts.remove( host )
+            
+            fp = open( self.f_dead, 'w' )
+            fp.write( "\n".join(t_dead) )
+            fp.close()
 
 
     def setUrls( self, t_urls ):
@@ -174,6 +180,15 @@ class App:
             fp.close()
             sys.stdout.write( '[+] saved in %s\n' % self.f_urls )
     
+    def setUrlsIps( self, t_new_urls ):
+        new_urls = len(t_new_urls)
+        sys.stdout.write( '%s[+] %d urls created.%s\n' %  (fg('green'),new_urls,attr(0)) )
+
+        if new_urls:
+            fp = open( self.f_urls_ips, 'w' )
+            fp.write( "\n".join(t_new_urls) )
+            fp.close()
+            sys.stdout.write( '[+] saved in %s\n' % self.f_urls_ips )
 
     def getReportDatas( self ):
         t_vars = {}
