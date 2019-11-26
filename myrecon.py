@@ -66,7 +66,7 @@ config = {
     },
     'xss': {
         'output_file': '/xss/output',
-        'command': "'xss.py -t 50 -n \"/usr/local/bin/phantomjs\" -p \"/opt/SecLists/mine/xss-myshort.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'xss.py -t 20 -n \"/usr/local/bin/phantomjs\" -p \"/opt/SecLists/mine/xss-myshort.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
     'extractjuicy': {
         'output_file': '/juicy',
