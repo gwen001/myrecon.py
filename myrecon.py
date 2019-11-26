@@ -25,7 +25,7 @@ config = {
         'output_dir': '/screenshot/screens',
         'command': "'EyeWitness --headless -f \"' + f_source + '\" --user-agent \"Mozilla/5.0 (X11; Linux i586; rv:63.0) Gecko/20100101 Firefox/63.0\" --no-prompt --threads 10 -d \"' + app.d_output + '/screenshot\" 2>&1 >/dev/null &'"
     },
-    'smuggler': {
+    'smuggling': {
         'output_file': '/smuggler/output',
         'command': "'smuggler.py -t 50 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
