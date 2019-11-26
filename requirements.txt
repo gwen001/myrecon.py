@@ -2,5 +2,4 @@ argparse
 tldextract
 goop
 colored
-functools
 multiprocessing

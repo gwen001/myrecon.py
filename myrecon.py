@@ -6,7 +6,7 @@ import os
 
 
 config = {
-    'optional_mods': ['resolve','portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'cors', 'googledorks', 'wayback','subto','xss' ],
+    'optional_mods': ['resolve','portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'cors', 'googledorks', 'wayback','subto','xss','smuggling' ],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
@@ -24,6 +24,10 @@ config = {
     'screenshot': {
         'output_dir': '/screenshot/screens',
         'command': "'EyeWitness --headless -f \"' + f_source + '\" --user-agent \"Mozilla/5.0 (X11; Linux i586; rv:63.0) Gecko/20100101 Firefox/63.0\" --no-prompt --threads 10 -d \"' + app.d_output + '/screenshot\" 2>&1 >/dev/null &'"
+    },
+    'smuggler': {
+        'output_file': '/smuggler/output',
+        'command': "'smuggler.py -t 50 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
     'crlf': {
         'output_file': '/crlf/output',
@@ -62,7 +66,7 @@ config = {
     },
     'xss': {
         'output_file': '/xss/output',
-        'command': "'testxss --no-color --encode --threads 10 --gpg --phantom \"/usr/local/bin/phantomjs\" --payload \"/opt/SecLists/mine/xss-myshort.txt\" --prefix --suffix --sos --urls \"' + f_source + '\" > xss/output &'"
+        'command': "'xss.py -t 50 -n \"/usr/local/bin/phantomjs\" -p \"/opt/SecLists/mine/xss-myshort.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
     'extractjuicy': {
         'output_file': '/juicy',
