@@ -27,7 +27,7 @@ config = {
     },
     'smuggling': {
         'output_file': '/smuggler/output',
-        'command': "'smuggler.py -t 50 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'smuggler.py -v 0 -t 50 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
     'crlf': {
         'output_file': '/crlf/output',
