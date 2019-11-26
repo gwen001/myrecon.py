@@ -28,6 +28,12 @@ __OPENREDIRECT_VULNERABLE__
 [+] mod: xss (vulnerable):
 __XSS_VULNERABLE__
 
+[+] mod: cors (vulnerable):
+__CORS_VULNERABLE__
+
+[+] mod: smuggling (vulnerable):
+__SMUGGLING_VULNERABLE__
+
 [+] mod: quickhits (200):
 __QUICKHITS__
 
