@@ -39,11 +39,11 @@ config = {
     },
     'openredirect': {
         'output_file': '/openredirect/output',
-        'command': "'open-redirect.py -t 100 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'openredirect.py -t 100 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
     },
     'quickhits': {
         'output_file': '/quickhits/output',
-        'command': "'quick-hits.py -g -t 100 -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null'"
+        'command': "'quickhits.py -g -t 100 -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null'"
     },
     'googledorks': {
         'threads': 5,
