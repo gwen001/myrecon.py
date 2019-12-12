@@ -10,6 +10,9 @@ __N_IPS__
 [+] Urls generated:
 __N_URLS__
 
+[+] Endpoints found:
+__N_ENDPOINTS__
+
 [+] mod: screenshot:
 __N_SCREENSHOTS__
 

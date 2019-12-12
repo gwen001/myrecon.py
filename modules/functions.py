@@ -90,8 +90,7 @@ def isDomain( str ):
 
 
 def generateUrlsFile( app, hosts, ips, http ):
-    t_urls = []
-    f_urls = '/tmp/tempurls_' + str(random.randint(1000,9999))
+    f_urls = '/tmp/tempfile_' + str(random.randint(1000,9999))
 
     fp = open( f_urls, 'w' )
 
@@ -110,4 +109,17 @@ def generateUrlsFile( app, hosts, ips, http ):
     fp.close()
 
     return f_urls
+    
+
+def generateTempFile( app, t_files, t_prefix=False ):
+    f_temp = '/tmp/tempfile_' + str(random.randint(1000,9999))
+    # print(f_temp)
+    fp_temp = open( f_temp, 'w' )
+    
+    for file in t_files:
+        fp = open( file )
+        fp_temp.write( fp.read().strip()+"\n" )
+        fp.close()
+
+    return f_temp
     

@@ -25,7 +25,8 @@ class Xss:
 
         self.f_output = self.d_output + '/' + self.f_output
 
-        f_source = func.generateUrlsFile( app, True, False, False )
+        # f_source = func.generateUrlsFile( app, True, False, False )
+        f_source = app.f_urls_hosts
         cmd = eval( app.config['xss']['command'] )
         os.system( cmd )
         # try:

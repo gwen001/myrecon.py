@@ -13,7 +13,6 @@ class Cors:
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
-        f_source = app.f_hosts
         cmd = eval( app.config['cors']['command'] )
         os.system( cmd )
         # try:

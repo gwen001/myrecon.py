@@ -6,44 +6,56 @@ import os
 
 
 config = {
-    'optional_mods': ['resolve','portscan', 'screenshot', 'quickhits', 'crlf', 'openredirect', 'cors', 'googledorks', 'wayback','subto','xss','smuggling' ],
-    'mandatory_mods' : ['subdomains', 'resolve', 'urls'],
+    'optional_mods': ['endpoints','screenshot', 'quickhits', 'crlf', 'openredirect', 'cors', 'subto', 'xss', 'smuggling'],
+    'mandatory_mods' : ['subdomains', 'resolve', 'urls', 'endpoints'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
     'subdomains': {
         'threads': 5,
-        # 'command': 'assetfinder -subs-only __DOMAIN__'
-        # 'command': 'subfinder -d __DOMAIN__'
-        # 'command': 'amass -d __DOMAIN__'
-        'command': "'findomain -t ' + domain"
+        'command': "'assetfinder -subs-only ' + domain"
+        # 'command': "'findomain -t ' + domain"
+    },
+    'endpoints': {
+        'commands': [
+            "'github-endpoints.py -d ' + domain + ' -s | tee -a raw_github-endpoints endpoints_grabbed 2>&1 >/dev/null &'",
+            "'google-search.py -d -e 100 -t \"site:' + domain + '\" | tee -a raw_google-domain endpoints_grabbed 2>&1 >/dev/null &'",
+            "'google-search.py -d -e 100 -t \"site:' + domain + ' inurl:&\" | tee -a raw_google-domain endpoints_grabbed 2>&1 >/dev/null &'",
+            "'waybackurls ' + domain + ' true ' + os.getcwd() + '/raw_wayback 2>&1 >/dev/null &'",
+        ]
+    },
+    'ishttp': {
+        'command': "'cat \"' + f_source + '\" | httprobe -t 2000 -p large | tee -a \"' + app.f_urls + '\" 2>&1 >/dev/null &'"
     },
     'resolve': {
         'threads': 10,
         'command': "'host ' + host"
     },
     'screenshot': {
-        'output_dir': '/screenshot/screens',
-        'command': "'EyeWitness --headless -f \"' + f_source + '\" --user-agent \"Mozilla/5.0 (X11; Linux i586; rv:63.0) Gecko/20100101 Firefox/63.0\" --no-prompt --threads 10 -d \"' + app.d_output + '/screenshot\" 2>&1 >/dev/null &'"
+        # 'output_dir': '/screenshot/screens',
+        'output_dir': '/screenshot/screenshots',
+        'command': "'cat \"' + app.f_urls + '\" | aquatone -out screenshot 2>&1 >/dev/null &'"
+        # 'command': "'EyeWitness --headless -f \"' + f_source + '\" --user-agent \"Mozilla/5.0 (X11; Linux i586; rv:63.0) Gecko/20100101 Firefox/63.0\" --no-prompt --threads 10 -d \"' + app.d_output + '/screenshot\" 2>&1 >/dev/null &'"
     },
     'smuggling': {
         'output_file': '/smuggler/output',
-        'command': "'smuggler.py -v 0 -t 50 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'smuggler.py -v 0 -t 50 -u \"' + app.f_urls_hosts + '\" 2>&1 >/dev/null &'"
     },
     'crlf': {
         'output_file': '/crlf/output',
-        'command': "'crlf.py -t 200 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'crlf.py -t 200 -u \"' + app.f_urls_hosts + '\" 2>&1 >/dev/null &'"
     },
     'cors': {
         'output_file': '/cors/output',
-        'command': "'cors.py -t 100 -o \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'cors.py -t 100 -o \"' + app.f_urls_hosts + '\" 2>&1 >/dev/null &'"
     },
     'openredirect': {
         'output_file': '/openredirect/output',
-        'command': "'openredirect.py -t 100 -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'openredirect.py -t 100 -u \"' + app.f_urls_hosts + '\" 2>&1 >/dev/null &'"
     },
     'quickhits': {
-        'output_file': '/quickhits/output',
-        'command': "'quickhits.py -g -t 100 -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null'"
+        'output_file': '/raw_quickhits',
+        # 'command': "'quickhits.py -g -t 100 -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null'"
+        'command': "'ffuf -u HFUZZ/WFUZZ -w \"' + app.f_urls + '\":HFUZZ -w \"/opt/SecLists/mine/myhardw.txt\":WFUZZ -o raw_quickhits 2>&1 >/dev/null'"
     },
     'googledorks': {
         'threads': 5,
@@ -66,7 +78,7 @@ config = {
     },
     'xss': {
         'output_file': '/xss/output',
-        'command': "'xss.py -t 20 -n \"/usr/local/bin/phantomjs\" -p \"/opt/SecLists/mine/xss-myshort.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null &'"
+        'command': "'xss.py -t 20 -n \"/usr/local/bin/phantomjs\" -p \"/opt/SecLists/mine/xss-myshort.txt\" -u \"' + app.f_endpoints + '\" 2>&1 >/dev/null &'"
     },
     'extractjuicy': {
         'output_file': '/juicy',

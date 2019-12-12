@@ -3,6 +3,7 @@
 
 import os
 import sys
+import json
 import subprocess
 from modules import functions as func
 from colored import fg, bg, attr
@@ -13,7 +14,6 @@ class Quickhits:
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
-        f_source = func.generateUrlsFile( app, True, False, False )
         cmd = eval( app.config['quickhits']['command'] )
         # print(cmd)
         os.system( cmd )
@@ -26,6 +26,44 @@ class Quickhits:
 
 
     def getReportDatas( self, app ):
+        return self.getReportDatasFfuf( app )
+        # return self.getReportDatasQuickhits( self, app )
+    
+    
+    def getReportDatasFfuf( self, app ):
+        t_vars = {}
+        t_vars['quickhits'] = '-'
+        f_output = app.d_output + app.config['quickhits']['output_file']
+
+        if not os.path.isfile(f_output):
+            return t_vars
+
+        with open(f_output) as json_file:
+            t_quickhits = json.load( json_file )
+
+        if not 'results' in t_quickhits:
+            return t_vars
+        
+        str_all = str_200 = ''
+
+        for hit in t_quickhits['results']:
+            str = "%s\t\t\t\tC=%d\tL=%d\tw=%d\tl=%d\n" % (hit['url'],hit['status'],hit['length'],hit['words'],hit['lines'])
+            str_all = str_all + str
+            if hit['status'] == 200:
+                str_200 = str_200 + str
+        
+        fp = open( 'quickhits', 'w' )
+        fp.write( str_all )
+        fp.close
+        
+        if len(str_200):
+            t_vars['quickhits'] = str_200
+        
+        return t_vars
+
+
+    
+    def getReportDatasQuickhits( self, app ):
         t_vars = {}
         t_vars['quickhits'] = '-'
         f_output = app.d_output + app.config['quickhits']['output_file']
@@ -40,4 +78,3 @@ class Quickhits:
                 # sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
 
         return t_vars
-

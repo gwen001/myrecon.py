@@ -13,8 +13,8 @@ class Screenshot:
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
-        f_source = func.generateUrlsFile( app, True, True, True )
         cmd = eval( app.config['screenshot']['command'] )
+        # print(cmd)
         os.system( cmd )
         # try:
         #     # print(cmd)
@@ -32,10 +32,9 @@ class Screenshot:
             cmd = 'find "' + d_output + '" -name "*.png" | wc -l'
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
-                t_vars['n_screenshots'] = output
+                t_vars['n_screenshots'] = output.strip()
             except Exception as e:
                 ex = 1
                 # sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
 
         return t_vars
-

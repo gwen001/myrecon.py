@@ -23,6 +23,9 @@ class App:
     f_dead     = ''
     f_ips      = ''
     f_urls     = ''
+    f_urls_ips     = ''
+    f_urls_hosts   = ''
+    f_endpoints    = ''
     
     domains   = []
     n_domains = 0
@@ -63,7 +66,7 @@ class App:
         mod_file = self.d_mods + '/' + mod_name + '.py'
 
         if not os.path.isfile(mod_file):
-            sys.stdout.write( "%s[-] error occurred: %s not found%s\n" % (fg('red'),mod_name,attr(0)) )
+            sys.stdout.write( "%s[-] error occurred: mod %s not found%s\n" % (fg('red'),mod_name,attr(0)) )
         else:
             py_mod = imp.load_source( mod_name.capitalize(), mod_file)
             mod = getattr( py_mod, mod_name.capitalize() )()
@@ -114,6 +117,8 @@ class App:
         self.f_ips      = self.d_output + '/ips'
         self.f_urls     = self.d_output + '/urls'
         self.f_urls_ips = self.d_output + '/urls_ips'
+        self.f_urls_hosts = self.d_output + '/urls_hosts'
+        self.f_endpoints = self.d_output + '/endpoints'
 
 
     def setDomains( self, t_domains ):
@@ -167,7 +172,7 @@ class App:
             fp = open( self.f_dead, 'w' )
             fp.write( "\n".join(t_dead) )
             fp.close()
-
+        
 
     def setUrls( self, t_urls ):
         self.urls = t_urls

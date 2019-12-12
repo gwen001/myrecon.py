@@ -13,7 +13,7 @@ class Smuggling:
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
-        f_source = func.generateUrlsFile( app, True, False, True )
+        # f_source = func.generateUrlsFile( app, True, False, True )
         cmd = eval( app.config['smuggling']['command'] )
         os.system( cmd )
         # try:

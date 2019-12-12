@@ -13,7 +13,6 @@ class Openredirect:
     def run( self, app ):
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
-        f_source = func.generateUrlsFile( app, True, False, True )
         cmd = eval( app.config['openredirect']['command'] )
         os.system( cmd )
         # try:
