@@ -6,7 +6,7 @@ import os
 
 
 config = {
-    'optional_mods': ['endpoints','screenshot', 'quickhits', 'crlf', 'openredirect', 'cors', 'subto', 'xss', 'smuggling'],
+    'optional_mods': ['screenshot', 'quickhits', 'crlf', 'openredirect', 'cors', 'subto', 'xss', 'smuggling'],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls', 'endpoints'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
