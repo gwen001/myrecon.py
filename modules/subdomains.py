@@ -36,7 +36,7 @@ class Subdomains:
 
         try:
             cmd = eval( app.config['subdomains']['command'] )
-            sys.stdout.write( '[*] %s\n' % cmd )
+            sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             output = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True ).decode('utf-8')
             # print(output)
         except Exception as e:

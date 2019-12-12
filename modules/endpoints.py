@@ -17,8 +17,7 @@ class Endpoints:
             for domain in app.domains:
                 try:
                     cmd = eval( c )
-                    # print(cmd)
-                    sys.stdout.write( '[*] %s\n' % cmd )
+                    sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
                     output = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True ).decode('utf-8')
                     # print(output)
                 except Exception as e:

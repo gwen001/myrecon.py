@@ -18,7 +18,7 @@ class Extractjuicy:
         for regexp in app.config['extractjuicy']['regexp']:
             # print(regexp)
             cmd = 'grep -hraoE "' + regexp + '" ' + search_path + ' | tee -a "' + output_file + '"'
-            sys.stdout.write( '[*] %s\n' % cmd )
+            sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             # os.system( cmd )
             try:
                 # print(cmd)
@@ -34,6 +34,7 @@ class Extractjuicy:
 
         if os.path.isfile(f_output):
             cmd = 'egrep VULNERABLE ' + f_output
+            sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
                 t_vars['crlf_vulnerable'] = output

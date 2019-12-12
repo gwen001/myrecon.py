@@ -15,7 +15,7 @@ class Smuggling:
 
         # f_source = func.generateUrlsFile( app, True, False, True )
         cmd = eval( app.config['smuggling']['command'] )
-        sys.stdout.write( '[*] %s\n' % cmd )
+        sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
         os.system( cmd )
         # try:
         #     # print(cmd)
@@ -31,6 +31,7 @@ class Smuggling:
 
         if os.path.isfile(f_output):
             cmd = 'egrep VULNERABLE ' + f_output
+            sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
                 t_vars['smuggling_vulnerable'] = output

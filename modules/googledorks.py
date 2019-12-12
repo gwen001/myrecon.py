@@ -106,6 +106,7 @@ class Googledorks:
         # return
 
         # cmd = 'google --start 0 --stop=5 --rua ' + dork
+        # sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
         # output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
         # print(output)
 

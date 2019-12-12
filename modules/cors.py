@@ -14,7 +14,7 @@ class Cors:
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
         cmd = eval( app.config['cors']['command'] )
-        sys.stdout.write( '[*] %s\n' % cmd )
+        sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
         os.system( cmd )
         # try:
         #     # print(cmd)

@@ -14,7 +14,7 @@ class Screenshot:
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
         cmd = eval( app.config['screenshot']['command'] )
-        sys.stdout.write( '[*] %s\n' % cmd )
+        sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
         os.system( cmd )
         # try:
         #     # print(cmd)
@@ -30,6 +30,7 @@ class Screenshot:
 
         if os.path.isdir(d_output):
             cmd = 'find "' + d_output + '" -name "*.png" | wc -l'
+            sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
                 t_vars['n_screenshots'] = output.strip()

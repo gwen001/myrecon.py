@@ -15,7 +15,7 @@ class Quickhits:
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
         cmd = eval( app.config['quickhits']['command'] )
-        sys.stdout.write( '[*] %s\n' % cmd )
+        sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
         os.system( cmd )
 
         # try:
@@ -70,6 +70,7 @@ class Quickhits:
 
         if os.path.isfile(f_output):
             cmd = 'egrep "C=200\s*L=[^0]" ' + f_output + ' | grep -v "T=text/html"'
+            sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
                 t_vars['quickhits'] = output

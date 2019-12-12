@@ -14,7 +14,7 @@ class Openredirect:
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
         cmd = eval( app.config['openredirect']['command'] )
-        sys.stdout.write( '[*] %s\n' % cmd )
+        sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
         os.system( cmd )
         # try:
         #     cmd = 'open-redirect.py -o ' + app.f_hosts
@@ -31,6 +31,7 @@ class Openredirect:
 
         if os.path.isfile(f_output):
             cmd = 'egrep VULNERABLE ' + f_output
+            sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             try:
                 output = subprocess.check_output( cmd, shell=True ).decode('utf-8')
                 t_vars['openredirect_vulnerable'] = output

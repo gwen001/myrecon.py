@@ -54,7 +54,7 @@ class Resolve:
 
         try:
             cmd = eval( app.config['resolve']['command'] )
-            # sys.stdout.write( '[*] %s\n' % cmd )
+            # sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
             # print(cmd)
             output = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True ).decode('utf-8')
             # print(output)
