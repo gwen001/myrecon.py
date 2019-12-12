@@ -20,6 +20,7 @@ class App:
     f_domains  = ''
     f_hosts    = ''
     f_tmphosts = ''
+    f_alive    = ''
     f_dead     = ''
     f_ips      = ''
     f_urls     = ''
@@ -33,6 +34,8 @@ class App:
     hosts    = []
     tmphosts = ''
     n_hosts  = 0
+    alive   = []
+    n_alive = 0
     dead   = []
     n_dead = 0
     
@@ -113,6 +116,7 @@ class App:
         self.f_domains  = self.d_output + '/domains'
         self.f_hosts    = self.d_output + '/hosts'
         self.f_tmphosts = self.d_output + '/tmp_hosts'
+        self.f_alive    = self.d_output + '/hosts_alive'
         self.f_dead     = self.d_output + '/hosts_dead'
         self.f_ips      = self.d_output + '/ips'
         self.f_urls     = self.d_output + '/urls'
@@ -159,6 +163,18 @@ class App:
         if len(tmphosts):
             fp = open( self.f_tmphosts, 'w' )
             fp.write( tmphosts )
+            fp.close()
+
+
+    def setAliveHosts( self, t_alive ):
+        sys.stdout.write( '[+] %d hosts alive found\n' %  len(t_alive) )
+
+        if len(t_alive):
+            for host in t_alive:
+                self.hosts.remove( host )
+            
+            fp = open( self.f_alive, 'w' )
+            fp.write( "\n".join(t_alive) )
             fp.close()
 
 

@@ -6,7 +6,7 @@ import os
 
 
 config = {
-    'optional_mods': ['screenshot', 'subto', 'crlf', 'openredirect', 'cors', 'smuggling', 'xss', 'quickhits'],
+    'optional_mods': ['subdomains', 'resolve', 'urls', 'endpoints','screenshot', 'subto', 'crlf', 'openredirect', 'cors', 'smuggling', 'xss', 'quickhits'],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls', 'endpoints'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
@@ -46,7 +46,7 @@ config = {
     },
     'cors': {
         'output_file': '/cors/output',
-        'command': "'cors.py -t 100 -o \"' + app.f_urls_hosts + '\" 2>&1 >/dev/null &'"
+        'command': "'cors.py -t 100 -u \"' + app.f_urls_hosts + '\" 2>&1 >/dev/null &'"
     },
     'openredirect': {
         'output_file': '/openredirect/output',

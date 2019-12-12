@@ -13,6 +13,7 @@ class Endpoints:
     def run( self, app ):
         sys.stdout.write( '[+] looking for endpoints...\n' )
 
+
         f_src = os.getcwd() + '/endpoints_grabbed'
         f_dst = app.f_endpoints
         cmd  = 'cp ' + f_src + ' ' + f_dst

@@ -13,6 +13,7 @@ from multiprocessing.dummy import Pool
 
 class Resolve:
     ips = []
+    alive_host = []
     dead_host = []
     full_output = ''
     hosts_ips = {}
@@ -35,6 +36,7 @@ class Resolve:
         pool.join()
 
         app.setIps( self.ips, self.full_output )
+        app.setAliveHosts( self.alive_host )
         app.setDeadHosts( self.dead_host )
 
         if len(self.hosts_ips):
@@ -68,6 +70,8 @@ class Resolve:
         matches = re.findall( '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}', output )
 
         if matches:
+            if host not in self.alive_host:
+                self.alive_host.append( host )
             if host not in self.hosts_ips:
                 self.hosts_ips[host] = []
             for ip in matches:
