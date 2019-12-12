@@ -37,7 +37,7 @@ class Urls:
 
         for url in t_urls:
             t_url_parse = urlparse( url )
-            if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",t_url_parse.netloc):
+            if re.match(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}",t_url_parse.netloc):
                 if not url in t_urls_ips:
                     t_urls_ips.append( url )
             else:
