@@ -18,9 +18,10 @@ class Extractjuicy:
         for regexp in app.config['extractjuicy']['regexp']:
             # print(regexp)
             cmd = 'grep -hraoE "' + regexp + '" ' + search_path + ' | tee -a "' + output_file + '"'
+            sys.stdout.write( '[*] %s\n' % cmd )
             # os.system( cmd )
             try:
-                print(cmd)
+                # print(cmd)
                 r = subprocess.check_output( cmd, shell=True )
             except Exception as e:
                 sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )

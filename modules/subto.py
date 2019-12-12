@@ -25,6 +25,7 @@ class Subto:
         self.f_output = self.d_output + '/' + self.f_output
 
         cmd = eval( app.config['subto']['command'] )
+        sys.stdout.write( '[*] %s\n' % cmd )
         os.system( cmd )
         # try:
         #     # print(cmd)

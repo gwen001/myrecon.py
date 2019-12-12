@@ -14,6 +14,7 @@ class Openredirect:
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
         cmd = eval( app.config['openredirect']['command'] )
+        sys.stdout.write( '[*] %s\n' % cmd )
         os.system( cmd )
         # try:
         #     cmd = 'open-redirect.py -o ' + app.f_hosts

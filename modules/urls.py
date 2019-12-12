@@ -22,6 +22,7 @@ class Urls:
 
         try:
             cmd = eval( app.config['ishttp']['command'] )
+            sys.stdout.write( '[*] %s\n' % cmd )
             output = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True ).decode('utf-8')
         except Exception as e:
             sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )

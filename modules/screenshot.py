@@ -14,7 +14,7 @@ class Screenshot:
         sys.stdout.write( '[+] running mod: %s\n' % self.__class__.__name__.lower() )
 
         cmd = eval( app.config['screenshot']['command'] )
-        # print(cmd)
+        sys.stdout.write( '[*] %s\n' % cmd )
         os.system( cmd )
         # try:
         #     # print(cmd)

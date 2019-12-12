@@ -26,6 +26,7 @@ class Portscan:
                 return
 
         cmd = eval( app.config['portscan']['command'] )
+        sys.stdout.write( '[*] %s\n' % cmd )
         os.system( cmd )
 
 

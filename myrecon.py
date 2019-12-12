@@ -6,7 +6,7 @@ import os
 
 
 config = {
-    'optional_mods': ['screenshot', 'quickhits', 'crlf', 'openredirect', 'cors', 'subto', 'xss', 'smuggling'],
+    'optional_mods': ['screenshot', 'crlf', 'openredirect', 'cors', 'subto', 'smuggling', 'xss', 'quickhits'],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls', 'endpoints'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
@@ -55,7 +55,7 @@ config = {
     'quickhits': {
         'output_file': '/raw_quickhits',
         # 'command': "'quickhits.py -g -t 100 -f \"/opt/SecLists/mine/myhardw.txt\" -u \"' + f_source + '\" 2>&1 >/dev/null'"
-        'command': "'ffuf -u HFUZZ/WFUZZ -w \"' + app.f_urls + '\":HFUZZ -w \"/opt/SecLists/mine/myhardw.txt\":WFUZZ -o raw_quickhits 2>&1 >/dev/null'"
+        'command': "'ffuf -u HFUZZ/WFUZZ -w \"' + app.f_urls + '\":HFUZZ -w \"/opt/SecLists/mine/myhardw.txt\":WFUZZ -o raw_quickhits 2>&1 >/dev/null &'"
     },
     'googledorks': {
         'threads': 5,
@@ -78,7 +78,7 @@ config = {
     },
     'xss': {
         'output_file': '/xss/output',
-        'command': "'xss.py -t 20 -n \"/usr/local/bin/phantomjs\" -p \"/opt/SecLists/mine/xss-myshort.txt\" -u \"' + app.f_endpoints + '\" 2>&1 >/dev/null &'"
+        'command': "'xss.py -t 10 -n \"/usr/local/bin/phantomjs\" -p \"/opt/SecLists/mine/xss-myshort.txt\" -u \"' + app.f_endpoints + '\" 2>&1 >/dev/null &'"
     },
     'extractjuicy': {
         'output_file': '/juicy',

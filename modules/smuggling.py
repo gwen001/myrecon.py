@@ -15,6 +15,7 @@ class Smuggling:
 
         # f_source = func.generateUrlsFile( app, True, False, True )
         cmd = eval( app.config['smuggling']['command'] )
+        sys.stdout.write( '[*] %s\n' % cmd )
         os.system( cmd )
         # try:
         #     # print(cmd)
