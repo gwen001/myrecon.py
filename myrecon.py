@@ -6,14 +6,14 @@ import os
 
 
 config = {
-    'optional_mods': ['screenshot', 'crlf', 'openredirect', 'cors', 'subto', 'smuggling', 'xss', 'quickhits'],
+    'optional_mods': ['screenshot', 'subto', 'crlf', 'openredirect', 'cors', 'smuggling', 'xss', 'quickhits'],
     'mandatory_mods' : ['subdomains', 'resolve', 'urls', 'endpoints'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
     'subdomains': {
         'threads': 5,
-        'command': "'assetfinder -subs-only ' + domain"
-        # 'command': "'findomain -t ' + domain"
+        # 'command': "'assetfinder -subs-only ' + domain"
+        'command': "'findomain -t ' + domain"
     },
     'endpoints': {
         'commands': [
@@ -50,7 +50,7 @@ config = {
     },
     'openredirect': {
         'output_file': '/openredirect/output',
-        'command': "'openredirect.py -t 100 -u \"' + app.f_urls_hosts + '\" 2>&1 >/dev/null &'"
+        'command': "'openredirect.py -t 100 -u \"' + app.f_endpoints + '\" 2>&1 >/dev/null &'"
     },
     'quickhits': {
         'output_file': '/raw_quickhits',

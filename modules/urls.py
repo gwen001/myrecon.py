@@ -28,11 +28,14 @@ class Urls:
             sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
             return
 
+        fp = open( app.urls )
+        t_urls = fp.read.strip().split("\n")
+        fp.close()
+
         t_urls_ips = []
         t_urls_hosts = []
-        t_output = output.split("\n")
 
-        for url in t_output:
+        for url in t_urls:
             t_url_parse = urlparse( url )
             if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",t_url_parse.netloc):
                 t_urls_ips.append( url )
@@ -47,7 +50,7 @@ class Urls:
         fp.write( "\n".join(t_urls_hosts) )
         fp.close()
 
-        sys.stdout.write( "%s[+] %d urls found.%s\n" % (fg('green'),len(t_urls_hosts)+len(t_urls_ips),attr(0)) )
+        sys.stdout.write( "%s[+] %d urls found.%s\n" % (fg('green'),(len(t_urls_hosts)+len(t_urls_ips)),attr(0)) )
 
 
     def getReportDatas( self, app ):
