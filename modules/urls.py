@@ -28,8 +28,8 @@ class Urls:
             sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
             return
 
-        fp = open( app.urls )
-        t_urls = fp.read.strip().split("\n")
+        fp = open( app.f_urls )
+        t_urls = fp.read().strip().split("\n")
         fp.close()
 
         t_urls_ips = []
@@ -38,9 +38,11 @@ class Urls:
         for url in t_urls:
             t_url_parse = urlparse( url )
             if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",t_url_parse.netloc):
-                t_urls_ips.append( url )
+                if not url in t_urls_ips:
+                    t_urls_ips.append( url )
             else:
-                t_urls_hosts.append( url )
+                if not url in t_urls_hosts:
+                    t_urls_hosts.append( url )
 
         fp = open( 'urls_ips', 'w' )
         fp.write( "\n".join(t_urls_ips) )

@@ -13,13 +13,6 @@ class Endpoints:
     def run( self, app ):
         sys.stdout.write( '[+] looking for endpoints...\n' )
 
-
-        f_src = os.getcwd() + '/endpoints_grabbed'
-        f_dst = app.f_endpoints
-        cmd  = 'cp ' + f_src + ' ' + f_dst
-        sys.stdout.write( '%s[*] %s%s\n' % (fg('dark_gray'),cmd,attr(0)) )
-        os.popen( cmd )
-
         for c in app.config['endpoints']['commands']:
             for domain in app.domains:
                 try:
@@ -52,7 +45,12 @@ class Endpoints:
                     if len(endpoint) and not endpoint in t_endpoints and not '>>>' in endpoint:
                         t_endpoints.append( endpoint )
 
-        fp = open( app.f_endpoints, 'a+' )
+        fp_hosts = open( app.f_urls_hosts )
+        t_urls_hosts = fp_hosts.read().strip().split("\n")
+        fp_hosts.close()
+
+        fp = open( app.f_endpoints, 'w' )
+        fp.write( "\n".join(t_urls_hosts) )
         fp.write( "\n".join(t_endpoints) )
         fp.close()
 

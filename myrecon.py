@@ -7,7 +7,7 @@ import os
 
 config = {
     'optional_mods': ['subdomains', 'resolve', 'urls', 'endpoints','screenshot', 'subto', 'crlf', 'openredirect', 'cors', 'smuggling', 'xss', 'quickhits'],
-    'mandatory_mods' : ['subdomains', 'resolve', 'urls', 'endpoints'],
+    'mandatory_mods' : ['subdomains', 'resolve'],
     'forbidden_mods' : ['app', 'functions', 'resume'],
     'report_template': 'report.tpl',
     'subdomains': {
@@ -17,10 +17,10 @@ config = {
     },
     'endpoints': {
         'commands': [
-            "'github-endpoints.py -d ' + domain + ' -s | tee -a raw_github-endpoints endpoints_grabbed 2>&1 >/dev/null &'",
+            # "'github-endpoints.py -d ' + domain + ' -s | tee -a raw_github-endpoints endpoints_grabbed 2>&1 >/dev/null &'",
             "'google-search.py -d -e 100 -t \"site:' + domain + '\" | tee -a raw_google-domain endpoints_grabbed 2>&1 >/dev/null &'",
-            "'google-search.py -d -e 100 -t \"site:' + domain + ' inurl:&\" | tee -a raw_google-domain endpoints_grabbed 2>&1 >/dev/null &'",
-            "'waybackurls ' + domain + ' true ' + os.getcwd() + '/raw_wayback 2>&1 >/dev/null &'",
+            # "'google-search.py -d -e 100 -t \"site:' + domain + ' inurl:&\" | tee -a raw_google-domain endpoints_grabbed 2>&1 >/dev/null &'",
+            # "'waybackurls ' + domain + ' true ' + os.getcwd() + '/raw_wayback 2>&1 >/dev/null &'",
         ]
     },
     'ishttp': {
